@@ -37,19 +37,6 @@ jobs:
           GITHUB_REPOSITORY_OWNER: ${{ github.repository_owner }}
         run: npm run build
 
-      - name: Rewrite root-absolute links for project pages
-        run: |
-          REPO_NAME="${GITHUB_REPOSITORY#*/}"
-          USER_SITE="${GITHUB_REPOSITORY_OWNER}.github.io"
-          if [ "$REPO_NAME" != "$USER_SITE" ]; then
-            PREFIX="/$REPO_NAME"
-            echo "Applying prefix: $PREFIX"
-            find dist -type f -name "*.html" -print0 | xargs -0 sed -i "s|href=\"/|href=\"$PREFIX/|g; s|src=\"/|src=\"$PREFIX/|g"
-            find dist -type f -name "*.css" -print0 | xargs -0 sed -i "s|url('/|url('$PREFIX/|g; s|url(\"/|url(\"$PREFIX/|g"
-          else
-            echo "User site repo detected, skipping prefix rewrite."
-          fi
-
       - name: Add .nojekyll
         run: touch dist/.nojekyll
 
