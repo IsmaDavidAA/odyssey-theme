@@ -7,7 +7,16 @@ import lit from "@astrojs/lit";
 const isGithubActions = process.env.GITHUB_ACTIONS === "true";
 const repository = process.env.GITHUB_REPOSITORY?.split("/")[1];
 const repositoryOwner = process.env.GITHUB_REPOSITORY_OWNER;
-const pagesBase = isGithubActions && repository ? `/${repository}` : "/";
+const isUserSiteRepo =
+  repositoryOwner &&
+  repository &&
+  repository.toLowerCase() === `${repositoryOwner.toLowerCase()}.github.io`;
+const pagesBase =
+  isGithubActions && repository
+    ? isUserSiteRepo
+      ? "/"
+      : `/${repository}`
+    : "/";
 const pagesSite =
   isGithubActions && repositoryOwner
     ? `https://${repositoryOwner}.github.io`
