@@ -26,6 +26,7 @@ const pagesSite =
 export default defineConfig({
   site: pagesSite, // Used to generate sitemap/canonical URLs
   base: pagesBase,
+  trailingSlash: "always",
   sitemap: true, // Generate sitemap (set to "false" to disable)
   integrations: [sitemap(), mdx(), lit(), icon()], // Add renderers to the config
 });
